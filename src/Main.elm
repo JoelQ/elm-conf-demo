@@ -4,46 +4,12 @@ import Html.App
 import Html exposing (..)
 import Html.Attributes exposing (style)
 import String
-
-
-type Name
-    = MaleName String (Maybe String) (Maybe String)
-    | FemaleName (Maybe String)
-
-
-type alias Clan =
-    { name : String
-    , color : String
-    }
-
-
-type alias Roman =
-    { clan : Clan
-    , name : Name
-    }
+import Roman exposing (Roman, Name(..), Children(..), Id, caesar, cornelia)
 
 
 type alias Model =
     List Roman
 
-
-caesar : Roman
-caesar =
-    let
-        julia =
-            Clan "Julia" "red"
-
-        name =
-            MaleName "Gaius" (Just "Caesar") Nothing
-    in
-        Roman julia name
-
-
-cornelia : Roman
-cornelia =
-    let
-        clan =
-            Clan "Cornelia" "green"
 
         name =
             FemaleName (Just "Africana")
@@ -71,7 +37,20 @@ view model =
 viewRoman : Roman -> Html a
 viewRoman roman =
     li [ style [ ( "color", roman.clan.color ) ] ]
-        [ text (formattedName roman) ]
+        [ text (formattedName roman)
+        , viewChildren roman.children
+        ]
+
+
+viewChildren : Children -> Html a
+viewChildren (Children children) =
+    ul [] (List.map viewChild children)
+
+
+viewChild : Roman -> Html a
+viewChild child =
+    li [ style [ ( "color", child.clan.color ) ] ]
+        [ text (formattedName child) ]
 
 
 formattedName : Roman -> String
