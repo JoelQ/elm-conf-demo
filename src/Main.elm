@@ -22,9 +22,18 @@ initialRomans =
     Dict.fromList [ ( caesar.id, caesar ), ( cornelia.id, cornelia ) ]
 
 
+initialId : Id
+initialId =
+    Dict.values initialRomans
+        |> List.map .id
+        |> List.maximum
+        |> Maybe.map ((+) 1)
+        |> Maybe.withDefault 1
+
+
 init : ( Model, Cmd Msg )
 init =
-    ( Model initialRomans 3, Cmd.none )
+    ( Model initialRomans initialId, Cmd.none )
 
 
 
