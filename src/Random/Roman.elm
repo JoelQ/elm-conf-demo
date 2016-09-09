@@ -7,17 +7,36 @@ import Random exposing (Generator)
 
 roman : Id -> Roman -> Generator Roman
 roman id father =
-    Random.map (Roman id father.clan noChildren) name
+    Random.map (Roman id father.clan noChildren) (name father)
 
 
-name : Generator Name
-name =
-    RandomE.choices [ femaleName, maleName ]
+name : Roman -> Generator Name
+name parent =
+    RandomE.choices [ (femaleName parent), maleName ]
 
 
-femaleName : Generator Name
-femaleName =
-    Random.map FemaleName nothing
+femaleName : Roman -> Generator Name
+femaleName parent =
+    Random.map FemaleName (femaleCognomen parent)
+
+
+parentalCognomen : Roman -> Maybe String
+parentalCognomen parent =
+    case parent.name of
+        FemaleName cog ->
+            cog
+
+        MaleName _ cog _ ->
+            cog
+
+
+femaleCognomen : Roman -> Generator (Maybe String)
+femaleCognomen parent =
+    let
+        inheritCog =
+            RandomE.constant (parentalCognomen parent)
+    in
+        RandomE.frequency [ ( 0.8, nothing ), ( 0.2, inheritCog ) ]
 
 
 maleName : Generator Name
