@@ -3,41 +3,47 @@ module Main exposing (..)
 import Html.App
 import Html exposing (..)
 import Html.Attributes exposing (style)
+import Html.Events exposing (onClick)
 import String
+import Dict exposing (Dict)
 import Roman exposing (Roman, Name(..), Children(..), Id, caesar, cornelia)
+import Random.Roman as RandomR
+import Random
 
 
 type alias Model =
-    List Roman
+    { romans : Dict Id Roman
+    , nextId : Id
+    }
 
 
-        name =
-            FemaleName (Just "Africana")
-    in
-        Roman clan name
+initialRomans : Dict Id Roman
+initialRomans =
+    Dict.fromList [ ( caesar.id, caesar ), ( cornelia.id, cornelia ) ]
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( [ caesar, cornelia ], Cmd.none )
+    ( Model initialRomans 3, Cmd.none )
 
 
 
 -- VIEW
 
 
-view : Model -> Html a
+view : Model -> Html Msg
 view model =
     main' []
         [ h1 [] [ text "Elm Conf" ]
-        , ul [] (List.map viewRoman model)
+        , ul [] (List.map viewRoman (Dict.values model.romans))
         ]
 
 
-viewRoman : Roman -> Html a
+viewRoman : Roman -> Html Msg
 viewRoman roman =
     li [ style [ ( "color", roman.clan.color ) ] ]
         [ text (formattedName roman)
+        , button [ onClick (GenerateChildFor roman) ] [ text "Bless with child" ]
         , viewChildren roman.children
         ]
 
@@ -79,6 +85,8 @@ formattedName roman =
 
 type Msg
     = Noop
+    | GenerateChildFor Roman
+    | Birth Roman Roman
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -86,6 +94,35 @@ update msg model =
     case msg of
         Noop ->
             ( model, Cmd.none )
+
+        GenerateChildFor father ->
+            let
+                randomRomanGenerator =
+                    RandomR.roman model.nextId father
+
+                randomRomanCommand =
+                    Random.generate (Birth father) randomRomanGenerator
+
+                incrementedModel =
+                    { model | nextId = model.nextId + 1 }
+            in
+                ( incrementedModel, randomRomanCommand )
+
+        Birth father child ->
+            let
+                updatedRomans =
+                    Dict.update father.id (Maybe.map (appendNewChild child)) model.romans
+            in
+                ( { model | romans = updatedRomans }, Cmd.none )
+
+
+appendNewChild : Roman -> Roman -> Roman
+appendNewChild child father =
+    let
+        (Children existingChildren) =
+            father.children
+    in
+        { father | children = Children (child :: existingChildren) }
 
 
 main : Program Never

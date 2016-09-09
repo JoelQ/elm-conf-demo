@@ -1,4 +1,14 @@
-module Roman exposing (Name(..), Children(..), Clan, Id, Roman, caesar, cornelia)
+module Roman
+    exposing
+        ( Name(..)
+        , Children(..)
+        , Clan
+        , Id
+        , Roman
+        , noChildren
+        , caesar
+        , cornelia
+        )
 
 
 type Name
