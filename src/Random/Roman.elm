@@ -2,7 +2,7 @@ module Random.Roman exposing (..)
 
 import Roman exposing (..)
 import Random.Extra as RandomE
-import Random exposing (Generator)
+import Random exposing (Generator, andThen)
 
 
 roman : Id -> Roman -> Generator Roman
@@ -41,7 +41,26 @@ femaleCognomen parent =
 
 maleName : Generator Name
 maleName =
-    Random.map3 MaleName praenomen cognomen agnomen
+    cognomen `andThen` nameFromCognomen
+
+
+nameFromCognomen : Maybe String -> Generator Name
+nameFromCognomen cog =
+    let
+        agnomenGen =
+            agnomenFromCognomen cog
+    in
+        Random.map3 MaleName praenomen (RandomE.constant cog) agnomenGen
+
+
+agnomenFromCognomen : Maybe String -> Generator (Maybe String)
+agnomenFromCognomen cog =
+    case cog of
+        Just _ ->
+            (percentage 0.3 agnomen)
+
+        Nothing ->
+            nothing
 
 
 praenomen : Generator String
@@ -53,6 +72,15 @@ praenomen =
 cognomen : Generator (Maybe String)
 cognomen =
     RandomE.sample cognomina
+
+
+percentage : Float -> Generator (Maybe a) -> Generator (Maybe a)
+percentage percent generator =
+    let
+        nothingOdds =
+            1.0 - percent
+    in
+        RandomE.frequency [ ( percent, generator ), ( nothingOdds, nothing ) ]
 
 
 agnomen : Generator (Maybe String)
