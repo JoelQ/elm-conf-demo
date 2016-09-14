@@ -13,7 +13,7 @@ module Roman
 
 type Name
     = MaleName String (Maybe String) (Maybe String)
-    | FemaleName (Maybe String)
+    | FemaleName (Maybe String) (Maybe String)
 
 
 type alias Clan =
@@ -57,7 +57,7 @@ caesar =
 
 julia : Roman
 julia =
-    Roman 3 (Clan "Julia" "red") noChildren (FemaleName Nothing)
+    Roman 3 (Clan "Julia" "red") noChildren (FemaleName Nothing Nothing)
 
 
 cornelia : Roman
@@ -67,6 +67,6 @@ cornelia =
             Clan "Cornelia" "green"
 
         name =
-            FemaleName (Just "Africana")
+            FemaleName (Just "Africana") (Just "Minor")
     in
         Roman 2 clan noChildren name

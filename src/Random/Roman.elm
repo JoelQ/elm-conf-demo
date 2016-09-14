@@ -17,13 +17,13 @@ name parent =
 
 femaleName : Roman -> Generator Name
 femaleName parent =
-    Random.map FemaleName (femaleCognomen parent)
+    Random.map2 FemaleName (femaleCognomen parent) differentiator
 
 
 parentalCognomen : Roman -> Maybe String
 parentalCognomen parent =
     case parent.name of
-        FemaleName cog ->
+        FemaleName cog _ ->
             cog
 
         MaleName _ cog _ ->
@@ -37,6 +37,11 @@ femaleCognomen parent =
             RandomE.constant (parentalCognomen parent)
     in
         RandomE.frequency [ ( 0.8, nothing ), ( 0.2, inheritCog ) ]
+
+
+differentiator : Generator (Maybe String)
+differentiator =
+    RandomE.sample [ "Maior", "Minor", "Prima", "Tertia", "Quinta" ]
 
 
 maleName : Generator Name

@@ -71,8 +71,15 @@ viewChild child =
 formattedName : Roman -> String
 formattedName roman =
     case roman.name of
-        FemaleName cognomen ->
-            String.join " " [ roman.clan.name, Maybe.withDefault "" cognomen ]
+        FemaleName cognomenM differentiatorM ->
+            let
+                cognomen =
+                    Maybe.withDefault "" cognomenM
+
+                differentiator =
+                    Maybe.withDefault "" differentiatorM
+            in
+                String.join " " [ roman.clan.name, cognomen, differentiator ]
 
         MaleName praenomen cognomenM agnomenM ->
             let
