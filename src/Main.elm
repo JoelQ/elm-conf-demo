@@ -56,7 +56,7 @@ init =
 view : Model -> Html Msg
 view model =
     main' []
-        [ h1 [] [ text "Elm Conf" ]
+        [ h1 [] [ text "Rolling Random Romans" ]
         , ul [] (List.map viewRoman (Dict.values model.romans))
         ]
 
