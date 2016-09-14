@@ -8,6 +8,7 @@ module Roman
         , noChildren
         , caesar
         , cornelia
+        , markAntony
         )
 
 
@@ -70,3 +71,8 @@ cornelia =
             FemaleName (Just "Africana") (Just "Minor")
     in
         Roman 2 clan noChildren name
+
+
+markAntony : Roman
+markAntony =
+    Roman 4 (Clan "Antonia" "blue") noChildren (MaleName "Marcus" Nothing Nothing)

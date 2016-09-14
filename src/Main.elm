@@ -6,7 +6,16 @@ import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 import String
 import Dict exposing (Dict)
-import Roman exposing (Roman, Name(..), Children(..), Id, caesar, cornelia)
+import Roman
+    exposing
+        ( Roman
+        , Name(..)
+        , Children(..)
+        , Id
+        , caesar
+        , cornelia
+        , markAntony
+        )
 import Random.Roman as RandomR
 import Random
 
@@ -19,7 +28,11 @@ type alias Model =
 
 initialRomans : Dict Id Roman
 initialRomans =
-    Dict.fromList [ ( caesar.id, caesar ), ( cornelia.id, cornelia ) ]
+    Dict.fromList
+        [ ( caesar.id, caesar )
+        , ( cornelia.id, cornelia )
+        , ( markAntony.id, markAntony )
+        ]
 
 
 initialId : Id
