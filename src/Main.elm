@@ -15,6 +15,7 @@ import Roman
         , caesar
         , cornelia
         , markAntony
+        , brutus
         )
 import Random.Roman as RandomR
 import Random
@@ -30,6 +31,7 @@ initialRomans : Dict Id Roman
 initialRomans =
     Dict.fromList
         [ ( caesar.id, caesar )
+        , ( brutus.id, brutus )
         , ( cornelia.id, cornelia )
         , ( markAntony.id, markAntony )
         ]

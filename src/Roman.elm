@@ -9,6 +9,7 @@ module Roman
         , caesar
         , cornelia
         , markAntony
+        , brutus
         )
 
 
@@ -76,3 +77,12 @@ cornelia =
 markAntony : Roman
 markAntony =
     Roman 4 (Clan "Antonia" "blue") noChildren (MaleName "Marcus" Nothing Nothing)
+
+
+brutus : Roman
+brutus =
+    let
+        name =
+            MaleName "Marcus" (Just "Brutus") Nothing
+    in
+        Roman 5 (Clan "Junia" "purple") noChildren name
