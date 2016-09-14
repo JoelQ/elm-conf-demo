@@ -42,6 +42,7 @@ femaleCognomen parent =
 differentiator : Generator (Maybe String)
 differentiator =
     RandomE.sample [ "Maior", "Minor", "Prima", "Tertia", "Quinta" ]
+        |> percentage 0.6
 
 
 maleName : Generator Name
