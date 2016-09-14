@@ -7907,6 +7907,19 @@ var _JoelQ$elm_conf$Roman$markAntony = A4(
 	A2(_JoelQ$elm_conf$Roman$Clan, 'Antonia', 'blue'),
 	_JoelQ$elm_conf$Roman$noChildren,
 	A3(_JoelQ$elm_conf$Roman$MaleName, 'Marcus', _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing));
+var _JoelQ$elm_conf$Roman$brutus = function () {
+	var name = A3(
+		_JoelQ$elm_conf$Roman$MaleName,
+		'Marcus',
+		_elm_lang$core$Maybe$Just('Brutus'),
+		_elm_lang$core$Maybe$Nothing);
+	return A4(
+		_JoelQ$elm_conf$Roman$Roman,
+		5,
+		A2(_JoelQ$elm_conf$Roman$Clan, 'Junia', 'purple'),
+		_JoelQ$elm_conf$Roman$noChildren,
+		name);
+}();
 var _JoelQ$elm_conf$Roman$caesar = function () {
 	var name = A3(
 		_JoelQ$elm_conf$Roman$MaleName,
@@ -9200,6 +9213,7 @@ var _JoelQ$elm_conf$Main$initialRomans = _elm_lang$core$Dict$fromList(
 	_elm_lang$core$Native_List.fromArray(
 		[
 			{ctor: '_Tuple2', _0: _JoelQ$elm_conf$Roman$caesar.id, _1: _JoelQ$elm_conf$Roman$caesar},
+			{ctor: '_Tuple2', _0: _JoelQ$elm_conf$Roman$brutus.id, _1: _JoelQ$elm_conf$Roman$brutus},
 			{ctor: '_Tuple2', _0: _JoelQ$elm_conf$Roman$cornelia.id, _1: _JoelQ$elm_conf$Roman$cornelia},
 			{ctor: '_Tuple2', _0: _JoelQ$elm_conf$Roman$markAntony.id, _1: _JoelQ$elm_conf$Roman$markAntony}
 		]));
@@ -9310,7 +9324,7 @@ var _JoelQ$elm_conf$Main$view = function (model) {
 					[]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text('Elm Conf')
+						_elm_lang$html$Html$text('Rolling Random Romans')
 					])),
 				A2(
 				_elm_lang$html$Html$ul,
